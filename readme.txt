@@ -1,5 +1,5 @@
 === Unlist Posts & Pages ===
-Contributors: brainstormforce, Nikschavan
+Contributors: brainstormforce
 Donate link: https://www.paypal.me/BrainstormForce
 Tags: post, unlist posts, hide posts,
 Requires at least: 4.6
@@ -21,7 +21,7 @@ The plugin updates MySQL query directly in WP_Query class of WordPress to leave 
 [Try it out on a free dummy site](https://bsf.io/unlist-posts-demo)
 
 = Supported & Actively Developed =
-Need help with something? Have an issue to report? [Get in touch](https://github.com/Nikschavan/unlist-posts "Unlist Posts & Pages on GitHub"). with us on GitHub.
+Need help with something? Have an issue to report? [Get in touch](https://github.com/brainstormforce/unlist-posts "Unlist Posts & Pages on GitHub"). with us on GitHub.
 
 = Limitations Of the Plugin =
 

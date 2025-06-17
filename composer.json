@@ -5,10 +5,6 @@
     {
       "name": "Brinstorm Force",
       "email": "hello@bsf.io"
-    },
-    {
-      "name": "Nikhil Chavan",
-      "email": "me@nikhilc.dev"
     }
   ],
   "require-dev": {

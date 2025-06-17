@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name:     Unlist Posts & Pages
- * Plugin URI:      https://github.com/Nikschavan/hide-post
+ * Plugin URI:      https://github.com/brainstormforce/unlist-posts
  * Description:     Hide posts, pages or  custom items from your site and make them accessible only with the direct link.
- * Author:          Nikhil Chavan
- * Author URI:      https://www.nikhilchavan.com/
+ * Author:          Brainstorm Force
+ * Author URI:      https://www.brainstormforce.com
  * Text Domain:     unlist-posts
  * Version:         1.1.9
  *
