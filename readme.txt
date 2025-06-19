@@ -1,6 +1,5 @@
 === Unlist Posts & Pages ===
-Contributors: brainstormforce, Nikschavan
-Donate link: https://www.paypal.me/BrainstormForce
+Contributors: Nikschavan
 Tags: post, unlist posts, hide posts,
 Requires at least: 4.6
 Tested up to: 6.5

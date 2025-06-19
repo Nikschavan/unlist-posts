@@ -1,6 +1,5 @@
 # Unlist Posts & Pages #
-**Contributors:** [brainstormforce](https://profiles.wordpress.org/brainstormforce/), [nikschavan](https://profiles.wordpress.org/nikschavan/)
-**Donate link:** https://www.paypal.me/BrainstormForce
+**Contributors:** [nikschavan](https://profiles.wordpress.org/nikschavan/)
 **Tags:** post, unlist posts, hide posts,
 **Requires at least:** 4.6
 **Tested up to:** 6.5

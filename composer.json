@@ -1,11 +1,7 @@
 {
-  "name": "brainstormforce/unlist-posts",
+  "name": "Nikschavan/unlist-posts",
   "description": "Unlist Posts from displaying anywhere on the site, only access the post with a direct link.",
   "authors": [
-    {
-      "name": "Brinstorm Force",
-      "email": "hello@bsf.io"
-    },
     {
       "name": "Nikhil Chavan",
       "email": "me@nikhilc.dev"
