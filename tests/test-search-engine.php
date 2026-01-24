@@ -22,7 +22,7 @@ class SearchEngine extends WP_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$this->editor_user_id = self::factory()->user->create(
 			array(
 				'role' => 'editor',
@@ -51,7 +51,7 @@ class SearchEngine extends WP_UnitTestCase {
 
 		// Get wp_robots string of a current post.
 		// Unlisted post should contain noindex string in meta.
-		$this->assertContains( 'noindex', get_echo( 'wp_robots' ) );
+		$this->assertStringContainsString( 'noindex', get_echo( 'wp_robots' ) );
 	}
 
 	/**
@@ -68,6 +68,6 @@ class SearchEngine extends WP_UnitTestCase {
 
 		// Get wp_robots string of a current post.
 		// Listed post should not contain noindex string in meta.
-		$this->assertNotContains( 'noindex', get_echo( 'wp_robots' ) );
+		$this->assertStringNotContainsString( 'noindex', get_echo( 'wp_robots' ) );
 	}
 }

@@ -22,7 +22,7 @@ class TestWPQueryUnlisted extends WP_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$this->editor_user_id = self::factory()->user->create(
 			array(
 				'role' => 'editor',

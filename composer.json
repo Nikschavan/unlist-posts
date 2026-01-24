@@ -1,21 +1,17 @@
 {
-  "name": "brainstormforce/unlist-posts",
+  "name": "nikschavan/unlist-posts",
   "description": "Unlist Posts from displaying anywhere on the site, only access the post with a direct link.",
   "authors": [
-    {
-      "name": "Brinstorm Force",
-      "email": "hello@bsf.io"
-    },
     {
       "name": "Nikhil Chavan",
       "email": "me@nikhilc.dev"
     }
   ],
   "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
     "phpcompatibility/php-compatibility": "^9.3",
-    "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5",
-    "roots/wordpress": "^6.0",
+    "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^9.5",
+    "roots/wordpress": "^6.9",
     "wp-coding-standards/wpcs": "^2.2",
     "wp-phpunit/wp-phpunit": "^6.0",
     "yoast/phpunit-polyfills": "^1.0"
