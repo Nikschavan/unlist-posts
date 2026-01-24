@@ -1,6 +1,6 @@
 {
   "name": "hide-post",
-  "version": "1.1.10",
+  "version": "1.1.9",
   "main": "Gruntfile.js",
   "author": "Nikhil Chavan",
   "devDependencies": {
