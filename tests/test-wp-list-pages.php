@@ -63,7 +63,7 @@ class TestWPListPagesUnlisted extends WP_UnitTestCase {
 		);
 
 		// Assert that the Unlisted Post is visible in wp_list_page().
-		$this->assertNotContains( 'Unlisted Post Title', $list_pages_markup );
+		$this->assertStringNotContainsString( 'Unlisted Post Title', $list_pages_markup );
 	}
 
 	/**
@@ -99,6 +99,6 @@ class TestWPListPagesUnlisted extends WP_UnitTestCase {
 		);
 
 		// Assert that the Listed Post is visible in wp_list_page().
-		$this->assertContains( 'Listed Post Title', $list_pages_markup );
+		$this->assertStringContainsString( 'Listed Post Title', $list_pages_markup );
 	}
 }
