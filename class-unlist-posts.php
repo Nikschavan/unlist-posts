@@ -94,8 +94,9 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			}
 
 			$hidden_posts = get_option( 'unlist_posts', array() );
+			$enable_robots = get_option( 'unlist_posts_enable_robots', array() );
 
-			if ( in_array( get_the_ID(), $hidden_posts, true ) && false !== get_the_ID() ) {
+			if ( $this->robots_enabled_check( $hidden_posts, $enable_robots ) ) {
 				$robots['index'] = 'noindex';
 			}
 			return $robots;
@@ -175,8 +176,9 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			}
 
 			$hidden_posts = get_option( 'unlist_posts', array() );
+			$enable_robots = get_option( 'unlist_posts_enable_robots', array() );
 
-			if ( in_array( get_the_ID(), $hidden_posts, true ) && false !== get_the_ID() ) {
+			if ( $this->robots_enabled_check( $hidden_posts, $enable_robots ) ) {
 				wp_no_robots();
 			}
 		}
@@ -194,8 +196,9 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			}
 
 			$hidden_posts = get_option( 'unlist_posts', array() );
+			$enable_robots = get_option( 'unlist_posts_enable_robots', array() );
 
-			if ( in_array( get_the_ID(), $hidden_posts, true ) && false !== get_the_ID() ) {
+			if ( $this->robots_enabled_check( $hidden_posts, $enable_robots ) ) {
 				// Disable robots tags from Yoast SEO.
 				add_filter( 'wpseo_robots_array', '__return_empty_array' );
 				return wp_robots_no_robots( $robots );
@@ -245,6 +248,25 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 		 */
 		private function allow_post_unlist() {
 			return apply_filters( 'unlist_posts_enabled', true );
+		}
+		
+		/**
+		 * Check if robots should be enabled
+		 *
+		 * @param  array $hidden_posts  Array of hidden post ids.
+		 * @param  array $enable_robots Array of post ids that should allow robots
+		 * @return boolean False - This is the default value. This means that robots are disabled.
+		 */
+		private function robots_enabled_check( $hidden_posts, $enable_robots ) {
+			// Check if hidden posts for post id is enabled
+			if ( in_array( get_the_ID(), $hidden_posts, true ) && false !== get_the_ID() ) {
+				// Check if enable robots for post id is enabled
+				if ( !in_array( get_the_ID(), $enable_robots, true ) && false !== get_the_ID() ) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 	}
