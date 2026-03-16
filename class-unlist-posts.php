@@ -61,6 +61,7 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			add_filter( 'posts_where', array( $this, 'where_clause' ), 20, 2 );
 			add_filter( 'get_next_post_where', array( $this, 'post_navigation_clause' ), 20, 1 );
 			add_filter( 'get_previous_post_where', array( $this, 'post_navigation_clause' ), 20, 1 );
+			add_action( 'wp_head', array( $this, 'hide_post_from_searchengines' ) );
 			add_filter( 'wp_robots', array( $this, 'no_robots_for_unlisted_posts' ) );
 			add_filter( 'rank_math/frontend/robots', array( $this, 'change_robots_for_rankmath' ) );
 			add_filter( 'wp_list_pages_excludes', array( $this, 'wp_list_pages_excludes' ) );
@@ -153,6 +154,30 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			$where .= ' AND p.ID NOT IN ( ' . esc_sql( $this->hidden_post_string() ) . ' ) ';
 
 			return $where;
+		}
+
+		/**
+		 * Add meta tags to block search engines on a page if the page is unlisted.
+		 *
+		 * @since  1.0.1
+		 */
+		public function hide_post_from_searchengines() {
+
+			// wp_no_robots is deprecated since WP 5.7.
+			if ( function_exists( 'wp_robots_no_robots' ) ) {
+				return;
+			}
+
+			// Bail if posts unlists is disabled.
+			if ( false === $this->allow_post_unlist() ) {
+				return false;
+			}
+
+			$hidden_posts = get_option( 'unlist_posts', array() );
+
+			if ( in_array( get_the_ID(), $hidden_posts, true ) && false !== get_the_ID() ) {
+				wp_no_robots();
+			}
 		}
 
 		/**

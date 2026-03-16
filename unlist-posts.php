@@ -7,7 +7,7 @@
  * Author URI:      https://www.nikhilchavan.com/
  * Text Domain:     unlist-posts
  * Version:         1.2.0
- * Requires at least: 5.7
+ * Requires at least: 4.6
  * Requires PHP:      7.4
  *
  * @package         Hide_Post

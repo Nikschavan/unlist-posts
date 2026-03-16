@@ -1,7 +1,7 @@
 === Unlist Posts & Pages ===
 Contributors: Nikschavan
 Tags: post, unlist posts, hide posts,
-Requires at least: 5.7
+Requires at least: 4.6
 Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 1.2.0
@@ -41,9 +41,7 @@ Just select option "Unlist Post" in any post of any type and that post will be h
 
 = 1.2.0 =
 - Compatibility: Tested up to WordPress 7.0.
-- Improvement: Bumped minimum WordPress version to 5.7.
 - Improvement: Added minimum PHP version requirement of 7.4 to match WordPress 7.0.
-- Removed: Deprecated `wp_no_robots()` fallback for WordPress versions older than 5.7.
 
 = 1.1.9 =
 - Improvement: Comments for unlisted posts were hidden, These should be displayed now.
