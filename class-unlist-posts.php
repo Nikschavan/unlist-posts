@@ -121,7 +121,7 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			$hidden_posts = get_option( 'unlist_posts', array() );
 
 			// bail if none of the posts are hidden or we are on admin page or singular page.
-			if ( ( is_admin() && ! wp_doing_ajax() ) || $query->is_singular || empty( $hidden_posts ) ) {
+			if ( ( is_admin() && ( ! wp_doing_ajax() || $this->is_admin_referer() ) ) || $query->is_singular || empty( $hidden_posts ) ) {
 				return $where;
 			}
 
@@ -148,7 +148,7 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			$hidden_posts = get_option( 'unlist_posts', array() );
 
 			// bail if none of the posts are hidden or we are on admin page or singular page.
-			if ( ( is_admin() && ! wp_doing_ajax() ) || empty( $hidden_posts ) ) {
+			if ( ( is_admin() && ( ! wp_doing_ajax() || $this->is_admin_referer() ) ) || empty( $hidden_posts ) ) {
 				return $where;
 			}
 
@@ -235,6 +235,17 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			$hidden_posts = get_option( 'unlist_posts', array() );
 
 			return implode( ', ', $hidden_posts );
+		}
+
+		/**
+		 * Check if the current AJAX request originated from an admin page.
+		 *
+		 * @since  1.2.0
+		 * @return boolean True if the AJAX request referer is an admin page.
+		 */
+		private function is_admin_referer() {
+			$referer = wp_get_referer();
+			return $referer && false !== strpos( $referer, admin_url() );
 		}
 
 		/**
