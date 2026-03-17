@@ -51,7 +51,8 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 		$unlisted_post = self::factory()->post->create();
 		$this->unlist_post( $unlisted_post );
 
-		// Simulate an AJAX request originating from the admin panel.
+		// Simulate an admin AJAX request originating from the admin panel.
+		set_current_screen( 'dashboard' );
 		add_filter( 'wp_doing_ajax', '__return_true' );
 		$_SERVER['HTTP_REFERER'] = admin_url( 'user-edit.php?user_id=1' );
 
@@ -67,6 +68,7 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 
 		remove_filter( 'wp_doing_ajax', '__return_true' );
 		unset( $_SERVER['HTTP_REFERER'] );
+		set_current_screen( 'front' );
 	}
 
 	/**
@@ -104,6 +106,7 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 		wp_set_current_user( 0 );
 
 		// Simulate an AJAX request with a spoofed admin referer.
+		set_current_screen( 'dashboard' );
 		add_filter( 'wp_doing_ajax', '__return_true' );
 		$_SERVER['HTTP_REFERER'] = admin_url( 'user-edit.php?user_id=1' );
 
@@ -118,5 +121,6 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 
 		remove_filter( 'wp_doing_ajax', '__return_true' );
 		unset( $_SERVER['HTTP_REFERER'] );
+		set_current_screen( 'front' );
 	}
 }
