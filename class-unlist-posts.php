@@ -244,7 +244,7 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 		 * @return boolean True if the AJAX request referer is an admin page.
 		 */
 		private function is_admin_referer() {
-			if ( ! current_user_can( 'edit_posts' ) ) {
+			if ( ! is_user_logged_in() ) {
 				return false;
 			}
 			$referer = wp_get_referer();

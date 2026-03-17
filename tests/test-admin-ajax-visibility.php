@@ -102,7 +102,7 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 		$unlisted_post = self::factory()->post->create();
 		$this->unlist_post( $unlisted_post );
 
-		// Switch to a user with no capabilities.
+		// Switch to a logged-out user.
 		wp_set_current_user( 0 );
 
 		// Simulate an AJAX request with a spoofed admin referer.
@@ -116,7 +116,7 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 			)
 		);
 
-		// Unlisted post should still be hidden because user lacks edit_posts capability.
+		// Unlisted post should still be hidden because user is not logged in.
 		$this->assertEmpty( $query->posts );
 
 		remove_filter( 'wp_doing_ajax', '__return_true' );
