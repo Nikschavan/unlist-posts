@@ -123,4 +123,33 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 		unset( $_SERVER['HTTP_REFERER'] );
 		set_current_screen( 'front' );
 	}
+
+	/**
+	 * Test that subscriber-level users cannot bypass filtering by spoofing the admin referer.
+	 */
+	public function test_unlisted_post_hidden_for_subscriber_with_spoofed_referer() {
+		$unlisted_post = self::factory()->post->create();
+		$this->unlist_post( $unlisted_post );
+
+		$subscriber_id = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		wp_set_current_user( $subscriber_id );
+
+		// Simulate an AJAX request with a spoofed admin referer from a low-privilege user.
+		set_current_screen( 'dashboard' );
+		add_filter( 'wp_doing_ajax', '__return_true' );
+		$_SERVER['HTTP_REFERER'] = admin_url( 'user-edit.php?user_id=1' );
+
+		$query = new WP_Query(
+			array(
+				'post_type' => 'post',
+			)
+		);
+
+		// Unlisted post should still be hidden — subscriber lacks edit_posts capability.
+		$this->assertEmpty( $query->posts );
+
+		remove_filter( 'wp_doing_ajax', '__return_true' );
+		unset( $_SERVER['HTTP_REFERER'] );
+		set_current_screen( 'front' );
+	}
 }

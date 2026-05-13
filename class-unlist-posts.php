@@ -244,7 +244,8 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 		 * @return boolean True if the AJAX request referer is an admin page.
 		 */
 		private function is_admin_referer() {
-			if ( ! is_user_logged_in() ) {
+			// Require an editing capability so a spoofed admin Referer from a subscriber-level user can't unmask unlisted posts.
+			if ( ! current_user_can( 'edit_posts' ) ) {
 				return false;
 			}
 			$referer = wp_get_referer();
