@@ -32,6 +32,18 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Restore global state mutated by individual tests so a failed assertion can't leak into later tests.
+	 *
+	 * @return void
+	 */
+	public function tearDown(): void {
+		remove_filter( 'wp_doing_ajax', '__return_true' );
+		unset( $_SERVER['HTTP_REFERER'] );
+		set_current_screen( 'front' );
+		parent::tearDown();
+	}
+
+	/**
 	 * Helper to unlist a post.
 	 *
 	 * @param int $post_id Post ID to unlist.
@@ -65,10 +77,6 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 		// Unlisted post should be visible in admin-originated AJAX.
 		$this->assertNotEmpty( $query->posts );
 		$this->assertEquals( $unlisted_post, $query->posts[0]->ID );
-
-		remove_filter( 'wp_doing_ajax', '__return_true' );
-		unset( $_SERVER['HTTP_REFERER'] );
-		set_current_screen( 'front' );
 	}
 
 	/**
@@ -90,9 +98,6 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 
 		// Unlisted post should still be hidden in frontend AJAX.
 		$this->assertEmpty( $query->posts );
-
-		remove_filter( 'wp_doing_ajax', '__return_true' );
-		unset( $_SERVER['HTTP_REFERER'] );
 	}
 
 	/**
@@ -118,10 +123,6 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 
 		// Unlisted post should still be hidden because user is not logged in.
 		$this->assertEmpty( $query->posts );
-
-		remove_filter( 'wp_doing_ajax', '__return_true' );
-		unset( $_SERVER['HTTP_REFERER'] );
-		set_current_screen( 'front' );
 	}
 
 	/**
@@ -147,9 +148,5 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 
 		// Unlisted post should still be hidden — subscriber lacks edit_posts capability.
 		$this->assertEmpty( $query->posts );
-
-		remove_filter( 'wp_doing_ajax', '__return_true' );
-		unset( $_SERVER['HTTP_REFERER'] );
-		set_current_screen( 'front' );
 	}
 }

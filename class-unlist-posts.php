@@ -248,8 +248,9 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			if ( ! current_user_can( 'edit_posts' ) ) {
 				return false;
 			}
+			// Require a starts-with match so an admin URL embedded as a query param on a frontend page can't pass the check.
 			$referer = wp_get_referer();
-			return $referer && false !== strpos( $referer, admin_url() );
+			return $referer && 0 === strpos( $referer, admin_url() );
 		}
 
 		/**
