@@ -147,7 +147,7 @@ class Unlist_Posts_Admin {
 				<label class="inline-edit-group">
 					<span class="title"><?php esc_html_e( 'Unlisted', 'unlist-posts' ); ?></span>
 					<select name="unlist_posts_bulk_edit">
-						<option value="-1"><?php esc_html_e( '&mdash; No Change &mdash;', 'unlist-posts' ); ?></option>
+						<option value="-1"><?php esc_html_e( '— No Change —', 'unlist-posts' ); ?></option>
 						<option value="unlist"><?php esc_html_e( 'Unlist', 'unlist-posts' ); ?></option>
 						<option value="list"><?php esc_html_e( 'List', 'unlist-posts' ); ?></option>
 					</select>
@@ -201,14 +201,39 @@ JS;
 	}
 
 	/**
+	 * Get the unlisted post IDs as a clean array of integers.
+	 *
+	 * Legacy installs may have stored the option as an empty string, so we
+	 * normalize aggressively before any read or write.
+	 *
+	 * @return int[]
+	 */
+	private function get_unlisted_ids() {
+		$stored = get_option( 'unlist_posts', array() );
+
+		if ( ! is_array( $stored ) ) {
+			return array();
+		}
+
+		$ids = array_map( 'intval', $stored );
+		$ids = array_filter(
+			$ids,
+			function( $id ) {
+				return $id > 0;
+			}
+		);
+
+		return array_values( array_unique( $ids ) );
+	}
+
+	/**
 	 * Whether a post is currently in the unlisted option list.
 	 *
 	 * @param int $post_id Post ID.
 	 * @return bool
 	 */
 	private function is_unlisted( $post_id ) {
-		$hidden_posts = (array) get_option( 'unlist_posts', array() );
-		return in_array( (int) $post_id, array_map( 'intval', $hidden_posts ), true );
+		return in_array( (int) $post_id, $this->get_unlisted_ids(), true );
 	}
 
 	/**
@@ -219,13 +244,12 @@ JS;
 	 */
 	private function set_unlisted( $post_id, $unlist ) {
 		$post_id      = (int) $post_id;
-		$hidden_posts = (array) get_option( 'unlist_posts', array() );
+		$hidden_posts = $this->get_unlisted_ids();
 
 		if ( $unlist ) {
 			if ( ! in_array( $post_id, $hidden_posts, true ) ) {
 				$hidden_posts[] = $post_id;
 			}
-			$hidden_posts = array_unique( $hidden_posts );
 		} else {
 			$hidden_posts = array_values( array_diff( $hidden_posts, array( $post_id ) ) );
 		}
@@ -307,9 +331,15 @@ JS;
 			return;
 		}
 
-		// Bulk Edit: nonce is verified by core in edit.php (bulk-posts) before
-		// bulk_edit_posts() loops and triggers save_post per ID.
+		// Bulk Edit. Core verifies the bulk-posts nonce in edit.php before
+		// bulk_edit_posts() runs, but we re-verify here for defense in depth so
+		// stray $_REQUEST keys in unrelated save_post contexts cannot trigger
+		// an update.
 		if ( isset( $_REQUEST['bulk_edit'] ) && isset( $_REQUEST['unlist_posts_bulk_edit'] ) ) {
+			if ( empty( $_REQUEST['_wpnonce'] ) ||
+				! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-posts' ) ) {
+				return;
+			}
 			$value = sanitize_text_field( wp_unslash( $_REQUEST['unlist_posts_bulk_edit'] ) );
 			if ( 'unlist' === $value ) {
 				$this->set_unlisted( $post_id, true );
