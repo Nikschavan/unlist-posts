@@ -248,9 +248,35 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			if ( ! current_user_can( 'edit_posts' ) ) {
 				return false;
 			}
-			// Require a starts-with match so an admin URL embedded as a query param on a frontend page can't pass the check.
+
 			$referer = wp_get_referer();
-			return $referer && 0 === strpos( $referer, admin_url() );
+			if ( ! $referer ) {
+				return false;
+			}
+
+			$referer_parts = wp_parse_url( $referer );
+			$admin_parts   = wp_parse_url( admin_url() );
+			if ( ! is_array( $referer_parts ) || ! is_array( $admin_parts ) ) {
+				return false;
+			}
+
+			// Require a same-host match — scheme is deliberately ignored so HTTPS browsers behind a TLS-terminating proxy still work even when admin_url() returns HTTP.
+			if ( empty( $referer_parts['host'] ) || empty( $admin_parts['host'] ) ) {
+				return false;
+			}
+			if ( strtolower( $referer_parts['host'] ) !== strtolower( $admin_parts['host'] ) ) {
+				return false;
+			}
+
+			if ( empty( $referer_parts['path'] ) || empty( $admin_parts['path'] ) ) {
+				return false;
+			}
+
+			// trailingslashit on both sides so /wp-admin-foo/ can't false-match /wp-admin/.
+			$admin_path   = trailingslashit( $admin_parts['path'] );
+			$referer_path = trailingslashit( $referer_parts['path'] );
+
+			return 0 === strpos( $referer_path, $admin_path );
 		}
 
 		/**
