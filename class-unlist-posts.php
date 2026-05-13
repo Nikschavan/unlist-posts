@@ -240,7 +240,7 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 		/**
 		 * Check if the current AJAX request originated from an admin page.
 		 *
-		 * @since  1.2.0
+		 * @since  1.1.10
 		 * @return boolean True if the AJAX request referer is an admin page.
 		 */
 		private function is_admin_referer() {

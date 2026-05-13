@@ -39,6 +39,9 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 	public function tearDown(): void {
 		remove_filter( 'wp_doing_ajax', '__return_true' );
 		unset( $_SERVER['HTTP_REFERER'] );
+		// Clear save_meta inputs and the persisted hidden-posts option so a leaked $_POST or option can't silently unlist posts created by later tests.
+		unset( $_POST['unlist_posts'], $_POST['unlist_post_nounce'] );
+		delete_option( 'unlist_posts' );
 		set_current_screen( 'front' );
 		parent::tearDown();
 	}
@@ -74,9 +77,8 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 			)
 		);
 
-		// Unlisted post should be visible in admin-originated AJAX.
-		$this->assertNotEmpty( $query->posts );
-		$this->assertEquals( $unlisted_post, $query->posts[0]->ID );
+		// Unlisted post should be visible in admin-originated AJAX. Use assertContains so the test isn't sensitive to result ordering or other posts in the DB.
+		$this->assertContains( $unlisted_post, wp_list_pluck( $query->posts, 'ID' ) );
 	}
 
 	/**
@@ -86,7 +88,8 @@ class TestAdminAjaxVisibility extends WP_UnitTestCase {
 		$unlisted_post = self::factory()->post->create();
 		$this->unlist_post( $unlisted_post );
 
-		// Simulate an AJAX request originating from the frontend.
+		// Simulate an admin-ajax.php request initiated from the frontend (admin-ajax.php sets is_admin() to true, so set the screen to match).
+		set_current_screen( 'dashboard' );
 		add_filter( 'wp_doing_ajax', '__return_true' );
 		$_SERVER['HTTP_REFERER'] = home_url( '/members-area/' );
 
