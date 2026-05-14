@@ -28,7 +28,7 @@ class Unlist_Posts_Admin {
 	 */
 	public static function instance() {
 		if ( ! isset( self::$_instance ) ) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
 
 		return self::$_instance;
@@ -218,7 +218,7 @@ JS;
 		$ids = array_map( 'intval', $stored );
 		$ids = array_filter(
 			$ids,
-			function( $id ) {
+			function ( $id ) {
 				return $id > 0;
 			}
 		);
@@ -260,7 +260,7 @@ JS;
 	/**
 	 * Register meta box(es).
 	 */
-	function register_metabox() {
+	public function register_metabox() {
 		$args = array(
 			'public' => true,
 		);
@@ -285,7 +285,7 @@ JS;
 	 *
 	 * @param  POST $post Currennt post object which is being displayed.
 	 */
-	function metabox_render( $post ) {
+	public function metabox_render( $post ) {
 
 		$hidden_posts = get_option( 'unlist_posts', array() );
 
@@ -373,7 +373,7 @@ JS;
 	 *
 	 * @return Array  $states An updated array of post display states.
 	 */
-	function add_unlisted_post_status( $states, $post ) {
+	public function add_unlisted_post_status( $states, $post ) {
 		// Bail if the unlisted post filter is active, to avoid redundancy.
 		if ( is_admin() && isset( $_GET['post_status'] ) && 'unlisted' === $_GET['post_status'] ) {
 			return;
@@ -397,7 +397,7 @@ JS;
 	 *
 	 * @return Array $views  An updated array of post list filters.
 	 */
-	function add_unlisted_post_filter( $views ) {
+	public function add_unlisted_post_filter( $views ) {
 		// Get the list of unlisted post IDs from the options table.
 		$unlisted_posts = maybe_unserialize( get_option( 'unlist_posts', array() ) );
 		$count          = false;
@@ -438,7 +438,7 @@ JS;
 	 *
 	 * @return void
 	 */
-	function add_post_filter() {
+	public function add_post_filter() {
 		$args = array(
 			'public' => true,
 		);
@@ -457,7 +457,7 @@ JS;
 	 *
 	 * @return Object $query  The updated instance of  WP_Query.
 	 */
-	function filter_unlisted_posts( $query ) {
+	public function filter_unlisted_posts( $query ) {
 		global $pagenow;
 
 		if ( is_admin() && 'edit.php' === $pagenow && isset( $_GET['post_status'] ) && 'unlisted' === $_GET['post_status'] ) {
@@ -470,7 +470,6 @@ JS;
 
 		return $query;
 	}
-
 }
 
 Unlist_Posts_Admin::instance();

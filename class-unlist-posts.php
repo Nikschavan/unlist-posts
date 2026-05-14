@@ -36,7 +36,7 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 		 */
 		public static function instance() {
 			if ( ! isset( self::$_instance ) ) {
-				self::$_instance = new self;
+				self::$_instance = new self();
 			}
 
 			return self::$_instance;
@@ -77,7 +77,6 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			if ( is_admin() ) {
 				require_once UNLIST_POSTS_DIR . 'class-unlist-posts-admin.php';
 			}
-
 		}
 
 		/**
@@ -111,7 +110,7 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 		 *
 		 * @return String $where Where clause.
 		 */
-		function where_clause( $where, $query ) {
+		public function where_clause( $where, $query ) {
 
 			// Bail if posts unlists is disabled.
 			if ( false === $this->allow_post_unlist() ) {
@@ -138,7 +137,7 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 		 *
 		 * @param  String $where Where clause.
 		 */
-		function post_navigation_clause( $where ) {
+		public function post_navigation_clause( $where ) {
 
 			// Bail if posts unlists is disabled.
 			if ( false === $this->allow_post_unlist() ) {
@@ -288,7 +287,6 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 		private function allow_post_unlist() {
 			return apply_filters( 'unlist_posts_enabled', true );
 		}
-
 	}
 
 	Unlist_Posts::instance();
