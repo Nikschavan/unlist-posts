@@ -14,7 +14,7 @@
     "roots/wordpress": "^6.9",
     "wp-coding-standards/wpcs": "^2.2",
     "wp-phpunit/wp-phpunit": "^6.0",
-    "yoast/phpunit-polyfills": "^1.0"
+    "yoast/phpunit-polyfills": "^4.0"
   },
   "config": {
     "platform": {
