@@ -56,7 +56,7 @@ jobs:
           git clone --depth 1 --branch "$WP_VERSION" https://github.com/WordPress/wordpress-develop.git /tmp/wp-develop 2>/dev/null \
             || git clone --depth 1 --branch "${WP_VERSION}.0" https://github.com/WordPress/wordpress-develop.git /tmp/wp-develop 2>/dev/null \
             || git clone --depth 1 https://github.com/WordPress/wordpress-develop.git /tmp/wp-develop
-          echo "WP_PHPUNIT__DIR=/tmp/wp-develop/tests/phpunit" >> "$GITHUB_ENV"
+          echo "WP_PHPUNIT__DIR_OVERRIDE=/tmp/wp-develop/tests/phpunit" >> "$GITHUB_ENV"
 
       - name: Run tests
         run: composer run test
