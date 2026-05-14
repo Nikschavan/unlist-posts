@@ -18,7 +18,7 @@ jobs:
             tools: composer, cs2pr
 
         - name: Composer Install
-          uses: ramsey/composer-install@v1
+          uses: ramsey/composer-install@v4
 
         - name: Run phpcs
           id: phpcs
