@@ -39,6 +39,8 @@ Just select option "Unlist Post" in any post of any type and that post will be h
 == Changelog ==
 
 = 1.2.0 =
+- New: Quick Edit and Bulk Edit support to unlist or list posts directly from the post list table, plus a new "Unlisted" column on public post types.
+- Fix: Unlisted posts are now visible in admin-originated AJAX requests, restoring compatibility with plugins like LearnDash that query posts via AJAX from the admin.
 - Compatibility: Tested up to WordPress 7.0.
 
 = 1.1.9 =
