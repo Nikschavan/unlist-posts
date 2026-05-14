@@ -121,7 +121,7 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			$hidden_posts = get_option( 'unlist_posts', array() );
 
 			// bail if none of the posts are hidden or we are on admin page or singular page.
-			if ( ( is_admin() && ! wp_doing_ajax() ) || $query->is_singular || empty( $hidden_posts ) ) {
+			if ( ( is_admin() && ( ! wp_doing_ajax() || $this->is_admin_referer() ) ) || $query->is_singular || empty( $hidden_posts ) ) {
 				return $where;
 			}
 
@@ -148,7 +148,7 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			$hidden_posts = get_option( 'unlist_posts', array() );
 
 			// bail if none of the posts are hidden or we are on admin page or singular page.
-			if ( ( is_admin() && ! wp_doing_ajax() ) || empty( $hidden_posts ) ) {
+			if ( ( is_admin() && ( ! wp_doing_ajax() || $this->is_admin_referer() ) ) || empty( $hidden_posts ) ) {
 				return $where;
 			}
 
@@ -235,6 +235,48 @@ if ( ! class_exists( 'Unlist_Posts' ) ) {
 			$hidden_posts = get_option( 'unlist_posts', array() );
 
 			return implode( ', ', $hidden_posts );
+		}
+
+		/**
+		 * Check if the current AJAX request originated from an admin page.
+		 *
+		 * @since  1.1.10
+		 * @return boolean True if the AJAX request referer is an admin page.
+		 */
+		private function is_admin_referer() {
+			// Require an editing capability so a spoofed admin Referer from a subscriber-level user can't unmask unlisted posts.
+			if ( ! current_user_can( 'edit_posts' ) ) {
+				return false;
+			}
+
+			$referer = wp_get_referer();
+			if ( ! $referer ) {
+				return false;
+			}
+
+			$referer_parts = wp_parse_url( $referer );
+			$admin_parts   = wp_parse_url( admin_url() );
+			if ( ! is_array( $referer_parts ) || ! is_array( $admin_parts ) ) {
+				return false;
+			}
+
+			// Require a same-host match — scheme is deliberately ignored so HTTPS browsers behind a TLS-terminating proxy still work even when admin_url() returns HTTP.
+			if ( empty( $referer_parts['host'] ) || empty( $admin_parts['host'] ) ) {
+				return false;
+			}
+			if ( strtolower( $referer_parts['host'] ) !== strtolower( $admin_parts['host'] ) ) {
+				return false;
+			}
+
+			if ( empty( $referer_parts['path'] ) || empty( $admin_parts['path'] ) ) {
+				return false;
+			}
+
+			// trailingslashit on both sides so /wp-admin-foo/ can't false-match /wp-admin/.
+			$admin_path   = trailingslashit( $admin_parts['path'] );
+			$referer_path = trailingslashit( $referer_parts['path'] );
+
+			return 0 === strpos( $referer_path, $admin_path );
 		}
 
 		/**
