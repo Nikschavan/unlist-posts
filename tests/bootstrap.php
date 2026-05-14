@@ -13,6 +13,10 @@ require_once dirname( __DIR__ ) . '/vendor/autoload.php';
 $wp_phpunit_override = getenv( 'WP_PHPUNIT__DIR_OVERRIDE' );
 if ( $wp_phpunit_override ) {
 	putenv( 'WP_PHPUNIT__DIR=' . $wp_phpunit_override );
+	// The wordpress-develop checkout has no wp-tests-config.php shim
+	// (only wp-tests-config-sample.php). Point WP's bootstrap directly
+	// at our config via the constant it respects.
+	define( 'WP_TESTS_CONFIG_FILE_PATH', __DIR__ . '/wp-config.php' );
 }
 
 // Give access to tests_add_filter() function.
