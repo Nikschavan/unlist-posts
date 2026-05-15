@@ -2,8 +2,8 @@
 **Contributors:** [nikschavan](https://profiles.wordpress.org/nikschavan/)
 **Tags:** post, unlist posts, hide posts,
 **Requires at least:** 4.6
-**Tested up to:** 6.9
-**Stable tag:** 1.1.9
+**Tested up to:** 7.0
+**Stable tag:** 1.2.0
 **License:** GPLv2 or later
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,11 @@ Need help with something? Have an issue to report? [Get in touch](https://github
 Just select option "Unlist Post" in any post of any type and that post will be hidden from the whole site, it can be only accessed if you have the direct link to the post.
 
 ## Changelog ##
+
+### 1.2.0 ###
+- New: Quick Edit and Bulk Edit support to unlist or list posts directly from the post list table, plus a new "Unlisted" column on public post types.
+- Fix: Unlisted posts are now visible in admin-originated AJAX requests, restoring compatibility with plugins like LearnDash that query posts via AJAX from the admin.
+- Compatibility: Tested up to WordPress 7.0.
 
 ### 1.1.9 ###
 - Improvement: Comments for unlisted posts were hidden, These should be displayed now.

@@ -6,7 +6,7 @@
  * Author:          Nikhil Chavan
  * Author URI:      https://www.nikhilchavan.com/
  * Text Domain:     unlist-posts
- * Version:         1.1.9
+ * Version:         1.2.0
  *
  * @package         Hide_Post
  */
@@ -15,6 +15,6 @@ defined( 'ABSPATH' ) or exit;
 
 define( 'UNLIST_POSTS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'UNLIST_POSTS_URI', plugins_url( '/', __FILE__ ) );
-define( 'UNLIST_POSTS_VER', '1.1.9' );
+define( 'UNLIST_POSTS_VER', '1.2.0' );
 
 require_once UNLIST_POSTS_DIR . 'class-unlist-posts.php';
