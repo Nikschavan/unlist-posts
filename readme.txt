@@ -39,7 +39,7 @@ Just select option "Unlist Post" in any post of any type and that post will be h
 == Changelog ==
 
 = 1.2.1 =
-- Fix: Fatal `TypeError` on PHP 8.x when viewing the post list with `?post_status=unlisted` and another plugin in the `display_post_states` filter chain declares a strict `array` type hint (e.g. SureDash). The early-return path now returns the `$states` array instead of `null`.
+- Fix: Fatal `TypeError` on PHP 8.x when viewing the post list with `?post_status=unlisted` and another plugin in the `display_post_states` filter chain declares a strict `array` type hint. The early-return path now returns the `$states` array instead of `null`.
 
 = 1.2.0 =
 - New: Quick Edit and Bulk Edit support to unlist or list posts directly from the post list table, plus a new "Unlisted" column on public post types.
