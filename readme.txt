@@ -3,7 +3,7 @@ Contributors: Nikschavan
 Tags: post, unlist posts, hide posts,
 Requires at least: 4.6
 Tested up to: 7.0
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,9 @@ Need help with something? Have an issue to report? [Get in touch](https://github
 Just select option "Unlist Post" in any post of any type and that post will be hidden from the whole site, it can be only accessed if you have the direct link to the post.
 
 == Changelog ==
+
+= 1.2.1 =
+- Fix: Fatal `TypeError` on PHP 8.x when viewing the post list with `?post_status=unlisted` and another plugin in the `display_post_states` filter chain declares a strict `array` type hint. The early-return path now returns the `$states` array instead of `null`.
 
 = 1.2.0 =
 - New: Quick Edit and Bulk Edit support to unlist or list posts directly from the post list table, plus a new "Unlisted" column on public post types.
