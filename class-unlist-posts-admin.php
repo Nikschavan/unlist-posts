@@ -376,7 +376,7 @@ JS;
 	public function add_unlisted_post_status( $states, $post ) {
 		// Bail if the unlisted post filter is active, to avoid redundancy.
 		if ( is_admin() && isset( $_GET['post_status'] ) && 'unlisted' === $_GET['post_status'] ) {
-			return;
+			return $states;
 		}
 
 		// Get the list of unlisted post IDs from the options table.
