@@ -11,7 +11,7 @@
     "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
     "phpcompatibility/php-compatibility": "^9.3",
     "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^9.5",
-    "roots/wordpress-core-installer": "^3.0",
+    "roots/wordpress-core-installer": "^4.0",
     "roots/wordpress-full": "*@beta",
     "wp-coding-standards/wpcs": "^3.3",
     "wp-phpunit/wp-phpunit": "^6.0",
